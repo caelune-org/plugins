@@ -49,7 +49,9 @@ caelune.component('ws-card', ({ ui, props }) => {
   let files = [];
   let workspaces = [];
   let preview = null; // {path, text, size}
-  let editing = null; // {path, text}
+  let editing = null; // {path, text} — text tracks the textarea via in:edittext
+  let newPath = ''; // new-file input (in:newpath)
+  let newWsName = ''; // new-workspace input (in:newws)
   let err = '';
   let lastJson = '';
   let status = '';
@@ -103,14 +105,15 @@ caelune.component('ws-card', ({ ui, props }) => {
 
   const previewHtml = () => {
     if (editing) {
+      /* No forms — the sandbox lacks allow-forms. The textarea streams into
+       * editing.text via in:edittext; Save is a plain click emit. */
       return (
         '<div class="ws-prev"><div class="ws-prevh"><span class="ws-pt">' + esc(editing.path) + '</span>' +
         '<button class="ws-btn" data-emit="cancel-edit" title="Cancel">' + ic('x') + '</button></div>' +
-        '<form class="ws-editf" data-emit="save">' +
-        '<input type="hidden" name="path" value="' + esc(editing.path) + '">' +
-        '<textarea name="content" class="ws-ta" spellcheck="false">' + esc(editing.text) + '</textarea>' +
-        '<button type="submit" class="ws-save"><span class="ws-icw">' + ic('save') + '</span>Save</button>' +
-        '</form></div>'
+        '<div class="ws-editf">' +
+        '<textarea class="ws-ta" data-bind="edittext" spellcheck="false">' + esc(editing.text) + '</textarea>' +
+        '<button class="ws-save" data-emit="save"><span class="ws-icw">' + ic('save') + '</span>Save</button>' +
+        '</div></div>'
       );
     }
     if (preview) {
@@ -135,10 +138,10 @@ caelune.component('ws-card', ({ ui, props }) => {
         '<div class="ws-list">' +
         (workspaces.length ? workspaces.map(wsRow).join('') : '<div class="ws-empty">No workspaces yet.</div>') +
         '</div>' +
-        '<form class="ws-newf" data-emit="new-ws">' +
+        '<div class="ws-newf">' +
         '<span class="ws-icw">' + ic('plus') + '</span>' +
-        '<input name="name" class="ws-in" placeholder="new-workspace" maxlength="40" required>' +
-        '<button type="submit" class="ws-btn">Create</button></form>'
+        '<input class="ws-in" data-bind="newws" value="' + esc(newWsName) + '" placeholder="new-workspace" maxlength="40">' +
+        '<button class="ws-btn" data-emit="new-ws">Create</button></div>'
       );
     }
     const bytes = files.reduce((n, f) => n + f.size, 0);
@@ -152,10 +155,10 @@ caelune.component('ws-card', ({ ui, props }) => {
       '<div class="ws-list">' +
       (files.length ? files.map(fileRow).join('') : '<div class="ws-empty">Empty — write a file.</div>') +
       '</div>' +
-      '<form class="ws-newf" data-emit="new-file">' +
+      '<div class="ws-newf">' +
       '<span class="ws-icw">' + ic('plus') + '</span>' +
-      '<input name="path" class="ws-in" placeholder="new/file.md" maxlength="180" required>' +
-      '<button type="submit" class="ws-btn">Create</button></form>' +
+      '<input class="ws-in" data-bind="newpath" value="' + esc(newPath) + '" placeholder="new/file.md" maxlength="180">' +
+        '<button class="ws-btn" data-emit="new-file">Create</button></div>' +
       previewHtml()
     );
   };
@@ -222,11 +225,23 @@ caelune.component('ws-card', ({ ui, props }) => {
     }
   });
 
-  ui.on('new-file', async (data) => {
+  /* Bound inputs stream their live value as in:<name>. */
+  ui.on('in:newpath', (v) => {
+    newPath = String(v ?? '');
+  });
+  ui.on('in:newws', (v) => {
+    newWsName = String(v ?? '');
+  });
+  ui.on('in:edittext', (v) => {
+    if (editing) editing.text = String(v ?? '');
+  });
+
+  ui.on('new-file', async () => {
     try {
-      const p = String((data && data.path) || '').trim();
+      const p = newPath.trim();
       if (!p) return;
       await caelune.files.write(ws, p, '');
+      newPath = '';
       await refresh();
     } catch (e) {
       err = String(e && e.message ? e.message : e);
@@ -234,11 +249,12 @@ caelune.component('ws-card', ({ ui, props }) => {
     }
   });
 
-  ui.on('new-ws', async (data) => {
+  ui.on('new-ws', async () => {
     try {
-      const n = String((data && data.name) || '').trim();
+      const n = newWsName.trim();
       if (!n) return;
       await caelune.files.createWs(n);
+      newWsName = '';
       await refresh();
     } catch (e) {
       err = String(e && e.message ? e.message : e);
@@ -263,18 +279,18 @@ caelune.component('ws-card', ({ ui, props }) => {
     render();
   });
 
-  ui.on('save', async (data) => {
+  ui.on('save', async () => {
+    if (!editing) return;
+    const p = editing.path;
     try {
-      const p = String((data && data.path) || '');
-      await caelune.files.write(ws, p, String((data && data.content) ?? ''));
+      await caelune.files.write(ws, p, editing.text);
       editing = null;
       preview = null;
       lastJson = '';
       status = 'Saved ' + p;
       await refresh();
     } catch (e) {
-      // Keep the user's text — the submitted FormData IS their edit.
-      editing = { path: p, text: String((data && data.content) ?? '') };
+      // editing keeps the user's text — re-render shows the error above it.
       err = String(e && e.message ? e.message : e);
       ui.html('.ws-body', html());
     }
