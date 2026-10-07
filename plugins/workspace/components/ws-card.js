@@ -281,7 +281,8 @@ caelune.component('ws-card', ({ ui, props }) => {
   });
 
   refresh();
-  setInterval(() => {
+  const poll = setInterval(() => {
     if (!editing) refresh();
   }, 4000);
+  ui.on('unmount', () => clearInterval(poll));
 });
