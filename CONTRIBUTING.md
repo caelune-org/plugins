@@ -18,6 +18,9 @@ capabilities:                      # omit entirely if none needed
   - storage                        #   caelune.storage.*  (per-plugin KV, 64KB)
   - settings.customCss             #   caelune.settings.get/set('customCss')
   - network                        #   caelune.fetch
+  - files                          #   caelune.files.*  (per-plugin workspaces,
+                                   #   see api.d.ts — list/read/write/edit/
+                                   #   search/move/stat/download)
 tools:
   - name: my_tool                  # [a-zA-Z0-9_-]{1,64} — the model's function name
     description: what the model sees — write it to steer when it gets called
@@ -44,8 +47,11 @@ interpret results — that text is your UX for model behavior.
   mount runs in the *worker*, painting the sandboxed iframe through
   `ui.text(sel)`, `ui.html(sel)`, `ui.attr(sel, name, val)`.
 - Iframe → worker events: put `data-emit="name" data-value="…"` on elements;
-  clicks (and form submits) arrive as `ui.on('name', cb)`. Clean up timers
-  in `ui.on('unmount', …)` — they leak otherwise.
+  clicks send the value, form submits send all fields as an object; both
+  arrive as `ui.on('name', cb)`. `ui` can only *set* the DOM — never rebuild
+  markup over an input/textarea the user may be editing (see `workspace`'s
+  render guard). Clean up timers in `ui.on('unmount', …)` — they leak
+  otherwise.
 - Keep secrets out of `content` if the model shouldn't echo them — return
   them via `render.props` and summarize instead (see `password`).
 - No emoji anywhere — plugin workers can't import lucide-react, so embed

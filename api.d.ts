@@ -111,21 +111,51 @@ interface CaeluneApi {
     workspaces(): Promise<string[]>;
     createWs(name: string): Promise<boolean>;
     removeWs(name: string): Promise<boolean>;
+    /** Rename a workspace — every file moves under the new prefix. */
+    renameWs(name: string, to: string): Promise<boolean>;
     list(ws: string, prefix?: string): Promise<{ path: string; size: number }[]>;
     stat(ws: string, path: string): Promise<{ path: string; size: number } | null>;
+    /** Char mode `{offset,length}` or line mode `{line,count}` (1-based). */
     read(
       ws: string,
       path: string,
-      opts?: { offset?: number; length?: number },
-    ): Promise<{ path: string; size: number; offset: number; content: string; hasMore: boolean }>;
+      opts?: { offset?: number; length?: number; line?: number; count?: number },
+    ): Promise<{
+      path: string;
+      size: number;
+      offset: number;
+      content: string;
+      hasMore: boolean;
+      totalLines?: number;
+    }>;
     write(
       ws: string,
       path: string,
       content: string,
       opts?: { append?: boolean },
     ): Promise<{ path: string; bytes: number; size: number }>;
+    /** Surgical replace — `old` must match once unless `all: true`;
+     * ambiguous matches are rejected rather than hitting the wrong span. */
+    edit(
+      ws: string,
+      path: string,
+      opts: { old: string; new: string; all?: boolean },
+    ): Promise<{ path: string; replaced: number; size: number }>;
+    /** Substring search — returns `path:line` hits (cap 60). */
+    search(
+      ws: string,
+      opts: { query: string; prefix?: string; ci?: boolean; max?: number },
+    ): Promise<{
+      query: string;
+      matches: { path: string; line: number; text: string }[];
+      truncated: boolean;
+    }>;
     remove(ws: string, path: string): Promise<boolean>;
     move(ws: string, from: string, to: string): Promise<boolean>;
+    /** Triggers a real browser download — `path` saves that file as
+     * `ws--path`; omitted, exports the whole workspace as a `ws-export.md`
+     * markdown bundle. Content never passes through the worker. */
+    download(ws: string, path?: string): Promise<boolean>;
   };
 
   /* -- Deprecated v1 aliases (kept working) -- */
