@@ -47,11 +47,14 @@ interpret results — that text is your UX for model behavior.
   mount runs in the *worker*, painting the sandboxed iframe through
   `ui.text(sel)`, `ui.html(sel)`, `ui.attr(sel, name, val)`.
 - Iframe → worker events: put `data-emit="name" data-value="…"` on elements;
-  clicks send the value, form submits send all fields as an object; both
-  arrive as `ui.on('name', cb)`. `ui` can only *set* the DOM — never rebuild
-  markup over an input/textarea the user may be editing (see `workspace`'s
-  render guard). Clean up timers in `ui.on('unmount', …)` — they leak
-  otherwise.
+  clicks send the value and arrive as `ui.on('name', cb)`. Forms can't
+  submit — the iframe sandbox omits `allow-forms` — so live inputs use
+  `data-bind="name"` instead: every keystroke arrives as `ui.on('in:name',
+  cb)` with the current value; a plain `data-emit` button then acts on the
+  tracked state (see `workspace`). `ui` can only *set* the DOM — never
+  rebuild markup over an input/textarea the user may be editing
+  (`workspace`'s render guard). Clean up timers in `ui.on('unmount', …)` —
+  they leak otherwise.
 - Keep secrets out of `content` if the model shouldn't echo them — return
   them via `render.props` and summarize instead (see `password`).
 - No emoji anywhere — plugin workers can't import lucide-react, so embed

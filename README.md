@@ -11,7 +11,7 @@ browses at `/plugins`.
 |--------|------|----------|--------------|--------------|
 | [calendar](plugins/calendar) | `calendar-days` | productivity | `storage` | Interactive month grid with persistent events |
 | [todo](plugins/todo) | `list-checks` | productivity | `storage` | Task list with a checkbox card you can tick off |
-| [workspace](plugins/workspace) | `folder-kanban` | productivity | `files` | Named workspaces of persistent files — documents, code, notes |
+| [workspace](plugins/workspace) | `folder-kanban` | productivity | `files` | Named workspaces of persistent files — documents, code, notes; surgical edits, search, downloads, and a file-manager card |
 | [weather](plugins/weather) | `cloud-sun` | utilities | `network` | Live conditions + 4-day forecast via Open-Meteo |
 | [currency](plugins/currency) | `arrow-right-left` | utilities | `network` | Converts amounts at ECB reference rates |
 | [clock](plugins/clock) | `clock` | utilities | — | World clock card, live-ticking |
