@@ -17,8 +17,8 @@
   margin: 6px 0 10px;
 }
 .wx-glyph {
-  font-size: 34px;
-  line-height: 1;
+  display: flex;
+  color: #b5763c;
 }
 .wx-temp {
   font-size: 34px;
@@ -56,8 +56,10 @@
   letter-spacing: 0.04em;
 }
 .wx-day .g {
-  font-size: 15px;
-  margin: 2px 0;
+  display: flex;
+  justify-content: center;
+  color: #8a8478;
+  margin: 3px 0;
 }
 .wx-day .t {
   font-variant-numeric: tabular-nums;

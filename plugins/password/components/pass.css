@@ -30,6 +30,9 @@
 .pw-strength.ok { color: #9a6d1f; }
 .pw-strength.weak { color: #a8432c; }
 .pw-regen {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   border: 1px solid #ddd8cc;
   background: #fff;
   border-radius: 7px;

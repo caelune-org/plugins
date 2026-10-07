@@ -1,9 +1,9 @@
 ---
 name: Currency
 description: Convert amounts between currencies at live ECB reference rates — 30+ ISO currencies
-version: 1.0.0
+version: 1.0.1
 category: utilities
-icon: 💱
+icon: arrow-right-left
 capabilities:
   - network
 tools:

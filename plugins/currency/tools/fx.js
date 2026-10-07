@@ -24,7 +24,7 @@ caelune.tool('convert_currency', async (input) => {
   if (rate === undefined) {
     return {
       content:
-        'No rate for ' + from + '→' + to +
+        'No rate for ' + from + ' to ' + to +
         ' — check both are ISO 4217 codes supported by the ECB reference set',
     };
   }

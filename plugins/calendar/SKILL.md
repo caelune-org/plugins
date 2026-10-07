@@ -1,9 +1,9 @@
 ---
 name: Calendar
 description: Month calendar view with persistent events — add, list, and remove dated events
-version: 1.0.2
+version: 1.0.3
 category: productivity
-icon: 📅
+icon: calendar-days
 capabilities:
   - storage
 tools:

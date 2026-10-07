@@ -1,9 +1,9 @@
 ---
 name: To-Do
 description: Persistent task list — add, complete, reopen, and remove to-dos with an interactive card
-version: 1.0.0
+version: 1.0.1
 category: productivity
-icon: ✅
+icon: list-checks
 capabilities:
   - storage
 tools:

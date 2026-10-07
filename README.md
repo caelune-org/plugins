@@ -7,17 +7,17 @@ browses at `/plugins`.
 
 ## Plugins
 
-| | Plugin | Category | Capabilities | What it does |
-|--|--------|----------|--------------|--------------|
-| 📅 | [calendar](plugins/calendar) | productivity | `storage` | Interactive month grid with persistent events |
-| ✅ | [todo](plugins/todo) | productivity | `storage` | Task list with a checkbox card you can tick off |
-| ⛅ | [weather](plugins/weather) | utilities | `network` | Live conditions + 4-day forecast via Open-Meteo |
-| 💱 | [currency](plugins/currency) | utilities | `network` | Converts amounts at ECB reference rates |
-| 🕐 | [clock](plugins/clock) | utilities | — | World clock card, live-ticking |
-| 🔑 | [password](plugins/password) | utilities | — | Crypto-secure passwords with entropy readout |
-| ⌗ | [qr-code](plugins/qr-code) | utilities | — | Scannable QR for links and short text |
-| 🎨 | [css-studio](plugins/css-studio) | personalization | `settings.customCss` | Lets the model restyle the app's custom CSS |
-| 🎲 | [dice-roller](plugins/dice-roller) | fun | — | NdM dice with an animated result card |
+| Plugin | Icon | Category | Capabilities | What it does |
+|--------|------|----------|--------------|--------------|
+| [calendar](plugins/calendar) | `calendar-days` | productivity | `storage` | Interactive month grid with persistent events |
+| [todo](plugins/todo) | `list-checks` | productivity | `storage` | Task list with a checkbox card you can tick off |
+| [weather](plugins/weather) | `cloud-sun` | utilities | `network` | Live conditions + 4-day forecast via Open-Meteo |
+| [currency](plugins/currency) | `arrow-right-left` | utilities | `network` | Converts amounts at ECB reference rates |
+| [clock](plugins/clock) | `clock` | utilities | — | World clock card, live-ticking |
+| [password](plugins/password) | `key-round` | utilities | — | Crypto-secure passwords with entropy readout |
+| [qr-code](plugins/qr-code) | `qr-code` | utilities | — | Scannable QR for links and short text |
+| [css-studio](plugins/css-studio) | `palette` | personalization | `settings.customCss` | Lets the model restyle the app's custom CSS |
+| [dice-roller](plugins/dice-roller) | `dices` | fun | — | NdM dice with an animated result card |
 
 ## Layout
 
@@ -30,8 +30,10 @@ plugins/<slug>/
 ```
 
 Optional frontmatter: `category` (productivity / utilities / personalization /
-fun — shown as a tag on the community row) and `icon` (one emoji glyph shown
-in the plugin's tile).
+fun — shown as a tag on the community row) and `icon` — a lucide icon name
+(`calendar-days`, `key-round`, `qr-code`, `dices`, …) shown in the plugin's
+tile. Only names in the app's curated `PLUGIN_ICONS` map resolve; unknown
+names fall back to the puzzle glyph. No emoji — icons are vectors.
 
 - `SKILL.md` body is injected into the model's system prompt while the plugin
   is enabled — write it for the model, not the user.

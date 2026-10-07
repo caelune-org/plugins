@@ -1,9 +1,9 @@
 ---
 name: Password Generator
 description: Cryptographically secure random passwords — adjustable length, symbols, and strength readout
-version: 1.0.0
+version: 1.0.1
 category: utilities
-icon: 🔑
+icon: key-round
 tools:
   - name: make_password
     description: Generate a secure random password; shows it in a card rather than echoing it in chat

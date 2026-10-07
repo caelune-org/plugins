@@ -1,9 +1,9 @@
 ---
 name: QR Code
 description: Render a scannable QR code for any link or short text — links, Wi-Fi strings, contacts
-version: 1.0.0
+version: 1.0.1
 category: utilities
-icon: ⌗
+icon: qr-code
 tools:
   - name: make_qr
     description: Render a QR code for a URL or text (up to 500 chars) — the card image is scannable

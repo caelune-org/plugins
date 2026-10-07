@@ -2,6 +2,14 @@ caelune.component('todo-card', async ({ ui }) => {
   const esc = (s) =>
     String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+  /* Inline lucide glyphs — plugin workers can't import the library. */
+  const ic = (body, s, w) =>
+    '<svg xmlns="http://www.w3.org/2000/svg" width="' + s + '" height="' + s +
+    '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w ?? 1.7) +
+    '" stroke-linecap="round" stroke-linejoin="round">' + body + '</svg>';
+  const CHECK = ic('<path d="M20 6 9 17l-5-5"/>', 11, 3);
+  const CROSS = ic('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>', 11);
+
   let todos = [];
   const refresh = async () => {
     const v = await caelune.storage.get('todos');
@@ -19,9 +27,9 @@ caelune.component('todo-card', async ({ ui }) => {
               (t) =>
                 '<div class="td-row' + (t.done ? ' done' : '') + '">' +
                 '<span class="td-check' + (t.done ? ' on' : '') + '" data-emit="toggle" data-value="' +
-                esc(t.id) + '">' + (t.done ? '✓' : '') + '</span>' +
+                esc(t.id) + '">' + (t.done ? CHECK : '') + '</span>' +
                 '<span class="td-text">' + esc(t.title) + '</span>' +
-                '<button class="td-del" data-emit="del" data-value="' + esc(t.id) + '">✕</button>' +
+                '<button class="td-del" data-emit="del" data-value="' + esc(t.id) + '">' + CROSS + '</button>' +
                 '</div>',
             )
             .join('')

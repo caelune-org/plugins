@@ -12,7 +12,8 @@ name: My Plugin                    # shown in the plugin list (required)
 description: One line for humans   # community row (required)
 version: 1.0.0                     # semver-ish; bump to trigger Update buttons
 category: utilities                # productivity | utilities | personalization | fun
-icon: 🌟                           # one glyph for the tile
+icon: qr-code                      # a lucide name — no emoji; unknown names
+                                   # fall back to the puzzle tile
 capabilities:                      # omit entirely if none needed
   - storage                        #   caelune.storage.*  (per-plugin KV, 64KB)
   - settings.customCss             #   caelune.settings.get/set('customCss')
@@ -47,6 +48,9 @@ interpret results — that text is your UX for model behavior.
   in `ui.on('unmount', …)` — they leak otherwise.
 - Keep secrets out of `content` if the model shouldn't echo them — return
   them via `render.props` and summarize instead (see `password`).
+- No emoji anywhere — plugin workers can't import lucide-react, so embed
+  the icon's SVG path data as strings in your component JS (see `weather`'s
+  `P` map for the pattern).
 
 ## Capabilities
 

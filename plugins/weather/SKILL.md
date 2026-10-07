@@ -1,9 +1,9 @@
 ---
 name: Weather
 description: Live weather lookup for any city — current conditions plus a 4-day forecast card
-version: 1.0.0
+version: 1.0.1
 category: utilities
-icon: ⛅
+icon: cloud-sun
 capabilities:
   - network
 tools:

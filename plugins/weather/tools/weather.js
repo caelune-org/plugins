@@ -1,20 +1,22 @@
 const GEO = 'https://geocoding-api.open-meteo.com/v1/search';
 const WX = 'https://api.open-meteo.com/v1/forecast';
 
-/** WMO weather-code → {label, glyph} — see open-meteo docs. */
+/** WMO weather-code → [label, icon] — icon names resolve in the card. */
 const CODES = {
-  0: ['Clear sky', '☀️'], 1: ['Mainly clear', '🌤️'], 2: ['Partly cloudy', '⛅'],
-  3: ['Overcast', '☁️'], 45: ['Fog', '🌫️'], 48: ['Rime fog', '🌫️'],
-  51: ['Light drizzle', '🌦️'], 53: ['Drizzle', '🌦️'], 55: ['Heavy drizzle', '🌧️'],
-  56: ['Freezing drizzle', '🌧️'], 57: ['Freezing drizzle', '🌧️'],
-  61: ['Light rain', '🌦️'], 63: ['Rain', '🌧️'], 65: ['Heavy rain', '🌧️'],
-  66: ['Freezing rain', '🌧️'], 67: ['Freezing rain', '🌧️'],
-  71: ['Light snow', '🌨️'], 73: ['Snow', '🌨️'], 75: ['Heavy snow', '❄️'], 77: ['Snow grains', '❄️'],
-  80: ['Light showers', '🌦️'], 81: ['Showers', '🌧️'], 82: ['Heavy showers', '🌧️'],
-  85: ['Snow showers', '🌨️'], 86: ['Snow showers', '🌨️'],
-  95: ['Thunderstorm', '⛈️'], 96: ['Thunderstorm + hail', '⛈️'], 99: ['Thunderstorm + hail', '⛈️'],
+  0: ['Clear sky', 'sun'], 1: ['Mainly clear', 'cloud-sun'], 2: ['Partly cloudy', 'cloud-sun'],
+  3: ['Overcast', 'cloud'], 45: ['Fog', 'fog'], 48: ['Rime fog', 'fog'],
+  51: ['Light drizzle', 'drizzle'], 53: ['Drizzle', 'drizzle'], 55: ['Heavy drizzle', 'drizzle'],
+  56: ['Freezing drizzle', 'rain'], 57: ['Freezing drizzle', 'rain'],
+  61: ['Light rain', 'rain'], 63: ['Rain', 'rain'], 65: ['Heavy rain', 'rain'],
+  66: ['Freezing rain', 'rain'], 67: ['Freezing rain', 'rain'],
+  71: ['Light snow', 'snow'], 73: ['Snow', 'snow'], 75: ['Heavy snow', 'snow'],
+  77: ['Snow grains', 'snow'],
+  80: ['Light showers', 'rain'], 81: ['Showers', 'rain'], 82: ['Heavy showers', 'rain'],
+  85: ['Snow showers', 'snow'], 86: ['Snow showers', 'snow'],
+  95: ['Thunderstorm', 'storm'], 96: ['Thunderstorm + hail', 'storm'],
+  99: ['Thunderstorm + hail', 'storm'],
 };
-const wmo = (c) => CODES[c] ?? ['—', '·'];
+const wmo = (c) => CODES[c] ?? ['—', 'cloud'];
 
 caelune.tool('get_weather', async (input) => {
   const city = String(input.city ?? '').trim().slice(0, 80);
@@ -38,13 +40,13 @@ caelune.tool('get_weather', async (input) => {
   const cur = wx?.current;
   if (!cur) return { content: 'Weather data unavailable for ' + place.name + ' right now' };
 
-  const [label, glyph] = wmo(cur.weather_code);
+  const [label, icon] = wmo(cur.weather_code);
   const name = place.name + (place.country ? ', ' + place.country : '');
   const days = (wx.daily?.time ?? []).slice(1).map((d, i) => ({
     date: d,
     min: Math.round(wx.daily.temperature_2m_min[i + 1]),
     max: Math.round(wx.daily.temperature_2m_max[i + 1]),
-    code: wx.daily.weather_code[i + 1],
+    icon: wmo(wx.daily.weather_code[i + 1])[1],
   }));
 
   return {
@@ -59,7 +61,7 @@ caelune.tool('get_weather', async (input) => {
         place: name,
         temp: Math.round(cur.temperature_2m),
         label,
-        glyph,
+        icon,
         humidity: cur.relative_humidity_2m,
         wind: Math.round(cur.wind_speed_10m),
         days,
