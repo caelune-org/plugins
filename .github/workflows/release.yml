@@ -1,0 +1,35 @@
+name: release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'plugins/**'
+      - 'scripts/**'
+      - '.github/workflows/release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build registry
+        run: node scripts/build.mjs
+      - name: Publish to rolling release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view registry >/dev/null 2>&1 || \
+            gh release create registry \
+              --title "Plugin registry" \
+              --notes "Rolling release holding index.json and per-plugin bundles. Consume via https://caelune.org/api/plugins" \
+              --latest=false
+          gh release upload registry dist/*.json --clobber
+          gh release view registry
