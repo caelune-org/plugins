@@ -1,0 +1,6 @@
+.css-card{border:1px solid #ddd2c4;border-radius:12px;padding:12px 14px;background:#faf8f3}
+.css-head{display:flex;align-items:center;gap:8px}
+.css-dot{width:9px;height:9px;border-radius:50%;background:#c96442}
+.css-title{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8a8172;flex:1}
+.css-state{font-size:11px;color:#6b6355}
+.css-body{margin:8px 0 0;font:11px/1.6 ui-monospace,monospace;color:#5d5748;background:#f3efe6;border-radius:8px;padding:8px 10px;white-space:pre-wrap;word-break:break-word}
