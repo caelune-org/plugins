@@ -1,4 +1,4 @@
-component('cal-card', async (ui, props) => {
+caelune.component('cal-card', async ({ ui, props }) => {
   const MONTHS = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
@@ -17,7 +17,7 @@ component('cal-card', async (ui, props) => {
   let events = [];
 
   const refreshEvents = async () => {
-    const v = await caelune.store.get('events');
+    const v = await caelune.storage.get('events');
     events = Array.isArray(v) ? v : [];
   };
   const datesWith = () => {

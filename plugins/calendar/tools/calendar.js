@@ -7,10 +7,10 @@ const pad = (n) => String(n).padStart(2, '0');
 const ISO_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const load = async () => {
-  const v = await caelune.store.get(STORE_KEY);
+  const v = await caelune.storage.get(STORE_KEY);
   return Array.isArray(v) ? v : [];
 };
-const save = (events) => caelune.store.set(STORE_KEY, events);
+const save = (events) => caelune.storage.set(STORE_KEY, events);
 
 const clampMonth = (v, dflt) => {
   const n = parseInt(v, 10);
@@ -44,7 +44,7 @@ const todayIso = () => {
   return n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate());
 };
 
-tool('month_calendar', async (input) => {
+caelune.tool('month_calendar', async (input) => {
   const now = new Date();
   const month = clampMonth(input.month, now.getMonth() + 1);
   const year = clampYear(input.year, now.getFullYear());
@@ -57,7 +57,7 @@ tool('month_calendar', async (input) => {
   };
 });
 
-tool('add_event', async (input) => {
+caelune.tool('add_event', async (input) => {
   const date = String(input.date ?? '').trim();
   if (!ISO_RE.test(date) || isNaN(new Date(date + 'T00:00:00').getTime()))
     return { content: 'date must be an ISO date like 2026-10-15' };
@@ -75,7 +75,7 @@ tool('add_event', async (input) => {
   };
 });
 
-tool('list_events', async (input) => {
+caelune.tool('list_events', async (input) => {
   const events = sorted(await load()).filter(monthFilter(input));
   if (!events.length) return { content: 'No events stored' };
   const body = events.slice(0, 50).map(line).join('\n');
@@ -87,7 +87,7 @@ tool('list_events', async (input) => {
   };
 });
 
-tool('remove_event', async (input) => {
+caelune.tool('remove_event', async (input) => {
   const events = await load();
   const i = events.findIndex((e) => e.id === input.id);
   if (i === -1) return { content: 'No event with id ' + input.id + ' — run list_events for ids' };

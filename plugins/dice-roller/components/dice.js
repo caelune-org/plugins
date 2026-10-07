@@ -1,4 +1,4 @@
-component('dice-card', (ui, props) => {
+caelune.component('dice-card', ({ ui, props }) => {
   let { notation, rolls, total } = props;
   const paint = () => {
     ui.text('.label', notation);

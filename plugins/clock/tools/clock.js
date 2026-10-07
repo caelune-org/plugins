@@ -1,4 +1,4 @@
-tool('current_time', async (input) => {
+caelune.tool('current_time', async (input) => {
   const tz =
     typeof input.timezone === 'string' && input.timezone.trim() ? input.timezone.trim() : undefined;
   const zone = tz || Intl.DateTimeFormat().resolvedOptions().timeZone || 'local';

@@ -1,8 +1,8 @@
 const countRules = (css) =>
   css.split('}').filter((r) => r.trim() && r.includes('{')).length;
 
-tool('get_custom_css', async () => {
-  const css = await caelune.getCustomCss();
+caelune.tool('get_custom_css', async () => {
+  const css = await caelune.settings.get('customCss');
   return {
     content: css
       ? 'Current custom CSS (' + css.length + ' chars):\n```css\n' + css + '\n```'
@@ -10,12 +10,12 @@ tool('get_custom_css', async () => {
   };
 });
 
-tool('set_custom_css', async (input) => {
+caelune.tool('set_custom_css', async (input) => {
   const css = String(input.css ?? '');
   if (css.length > 50000) {
     return { content: 'Stylesheet is too long — keep it under 50KB' };
   }
-  await caelune.setCustomCss(css);
+  await caelune.settings.set('customCss', css);
   const n = countRules(css);
   return {
     content: css

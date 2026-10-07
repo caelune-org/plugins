@@ -1,4 +1,4 @@
-tool('roll_dice', async (input) => {
+caelune.tool('roll_dice', async (input) => {
   const m = /^(\d+)d(\d+)$/i.exec(String(input.notation || '1d6').trim());
   const count = Math.min(20, Math.max(1, parseInt(m?.[1] ?? '1', 10) || 1));
   const sides = Math.min(1000, Math.max(2, parseInt(m?.[2] ?? '6', 10) || 6));

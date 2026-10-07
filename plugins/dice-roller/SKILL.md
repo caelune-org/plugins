@@ -1,7 +1,7 @@
 ---
 name: Dice Roller
 description: Roll dice in standard notation and show an interactive result card
-version: 1.0.0
+version: 1.0.1
 tools:
   - name: roll_dice
     description: Roll dice using standard notation like 2d6 or 1d20; returns the total and each roll

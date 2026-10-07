@@ -1,9 +1,9 @@
 ---
 name: Calendar
 description: Month calendar view with persistent events — add, list, and remove dated events
-version: 1.0.1
+version: 1.0.2
 capabilities:
-  - pluginStorage
+  - storage
 tools:
   - name: month_calendar
     description: Show an interactive calendar card for a given month; omit month/year for the current month

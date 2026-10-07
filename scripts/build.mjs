@@ -32,14 +32,15 @@ function frontmatter(skill) {
   for (const line of block.split('\n')) {
     const kv = /^(\w[\w-]*)\s*:\s*(.*)$/.exec(line);
     if (kv && !line.startsWith(' ') && !line.startsWith('\t')) {
-      section = ['tools', 'components'].includes(kv[1]) ? kv[1] : null;
+      section = ['tools', 'components', 'capabilities'].includes(kv[1]) ? kv[1] : null;
       if (section) fm[section] = [];
       else fm[kv[1]] = kv[2].trim();
       continue;
     }
-    const item = /^\s+-\s+(\w[\w-]*)\s*:\s*(.*)$/.exec(line);
+    const item = /^\s+-\s+(.*)$/.exec(line);
     if (item && section) {
-      fm[section].push({ [item[1]]: item[2].trim() });
+      const kvi = /^(\w[\w-]*)\s*:\s*(.*)$/.exec(item[1]);
+      fm[section].push(kvi ? { [kvi[1]]: kvi[2].trim() } : item[1].trim());
       continue;
     }
     const prop = /^\s+(\w[\w-]*)\s*:\s*(.*)$/.exec(line);
@@ -93,6 +94,7 @@ for (const slug of slugs.sort()) {
     description: fm.description ?? '',
     tools: (fm.tools ?? []).length,
     components: (fm.components ?? []).length,
+    capabilities: (fm.capabilities ?? []).filter((c) => typeof c === 'string'),
   };
   index.push(entry);
   writeFileSync(join(DIST, `${slug}.json`), JSON.stringify({ ...entry, files }));

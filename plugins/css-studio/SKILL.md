@@ -1,9 +1,9 @@
 ---
 name: CSS Studio
 description: Read and rewrite the app's Custom CSS to restyle the interface on request
-version: 1.0.0
+version: 1.0.1
 capabilities:
-  - customCss
+  - settings.customCss
 tools:
   - name: get_custom_css
     description: Read the custom CSS currently applied to the app; returns the stylesheet text, or an empty result when none is set

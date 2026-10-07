@@ -1,4 +1,4 @@
-component('css-card', (ui, props) => {
+caelune.component('css-card', ({ ui, props }) => {
   const css = String(props.css ?? '').trim();
   if (!css) {
     ui.text('.css-state', 'cleared');

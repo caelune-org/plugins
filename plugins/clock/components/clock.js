@@ -1,4 +1,4 @@
-component('clock-card', (ui, props) => {
+caelune.component('clock-card', ({ ui, props }) => {
   const tz = typeof props.timezone === 'string' && props.timezone ? props.timezone : undefined;
   const zone = tz || Intl.DateTimeFormat().resolvedOptions().timeZone || 'local';
   const tick = () => {
