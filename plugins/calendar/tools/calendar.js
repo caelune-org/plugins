@@ -39,6 +39,11 @@ const card = (date) => ({
   props: date ? { month: +date.slice(5, 7), year: +date.slice(0, 4), select: date } : {},
 });
 
+const todayIso = () => {
+  const n = new Date();
+  return n.getFullYear() + '-' + pad(n.getMonth() + 1) + '-' + pad(n.getDate());
+};
+
 tool('month_calendar', async (input) => {
   const now = new Date();
   const month = clampMonth(input.month, now.getMonth() + 1);
@@ -46,7 +51,8 @@ tool('month_calendar', async (input) => {
   const n = (await load()).filter(monthFilter({ month, year })).length;
   return {
     content:
-      'Showing ' + MONTHS[month - 1] + ' ' + year + ' — ' + n + ' event' + (n === 1 ? '' : 's'),
+      'Showing ' + MONTHS[month - 1] + ' ' + year + ' — ' + n + ' event' + (n === 1 ? '' : 's') +
+      '. Today is ' + todayIso() + ' (use it to resolve relative dates).',
     render: { component: 'cal-card', props: { month, year } },
   };
 });
@@ -75,6 +81,7 @@ tool('list_events', async (input) => {
   const body = events.slice(0, 50).map(line).join('\n');
   return {
     content:
+      'Today is ' + todayIso() + '. ' +
       events.length + ' event' + (events.length === 1 ? '' : 's') + ':\n' + body +
       (events.length > 50 ? '\n…' : ''),
   };
