@@ -98,7 +98,7 @@ for (const slug of slugs.sort()) {
     ...(typeof fm.category === 'string' && fm.category
       ? { category: fm.category.slice(0, 24) }
       : {}),
-    ...(typeof fm.icon === 'string' && fm.icon ? { icon: fm.icon.slice(0, 8) } : {}),
+    ...(typeof fm.icon === 'string' && fm.icon ? { icon: fm.icon.slice(0, 24) } : {}),
   };
   index.push(entry);
   writeFileSync(join(DIST, `${slug}.json`), JSON.stringify({ ...entry, files }));
