@@ -5,15 +5,33 @@ under `plugins/`; every push to `main` rebuilds `index.json` + per-plugin
 bundles and publishes them to the rolling `registry` release, which the app
 browses at `/plugins`.
 
+## Plugins
+
+| | Plugin | Category | Capabilities | What it does |
+|--|--------|----------|--------------|--------------|
+| 📅 | [calendar](plugins/calendar) | productivity | `storage` | Interactive month grid with persistent events |
+| ✅ | [todo](plugins/todo) | productivity | `storage` | Task list with a checkbox card you can tick off |
+| ⛅ | [weather](plugins/weather) | utilities | `network` | Live conditions + 4-day forecast via Open-Meteo |
+| 💱 | [currency](plugins/currency) | utilities | `network` | Converts amounts at ECB reference rates |
+| 🕐 | [clock](plugins/clock) | utilities | — | World clock card, live-ticking |
+| 🔑 | [password](plugins/password) | utilities | — | Crypto-secure passwords with entropy readout |
+| ⌗ | [qr-code](plugins/qr-code) | utilities | — | Scannable QR for links and short text |
+| 🎨 | [css-studio](plugins/css-studio) | personalization | `settings.customCss` | Lets the model restyle the app's custom CSS |
+| 🎲 | [dice-roller](plugins/dice-roller) | fun | — | NdM dice with an animated result card |
+
 ## Layout
 
 ```
 plugins/<slug>/
   SKILL.md            # frontmatter: name, description, version,
-                      # capabilities, tools, components
+                      # category, icon, capabilities, tools, components
   tools/*.js          # caelune.tool('name', async (args, ctx) => {content, render?})
   components/*.{html,css,js}   # caelune.component('name', ({ui, props}) => …)
 ```
+
+Optional frontmatter: `category` (productivity / utilities / personalization /
+fun — shown as a tag on the community row) and `icon` (one emoji glyph shown
+in the plugin's tile).
 
 - `SKILL.md` body is injected into the model's system prompt while the plugin
   is enabled — write it for the model, not the user.

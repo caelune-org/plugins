@@ -2,6 +2,8 @@
 name: CSS Studio
 description: Read and rewrite the app's Custom CSS to restyle the interface on request
 version: 1.0.1
+category: personalization
+icon: 🎨
 capabilities:
   - settings.customCss
 tools:

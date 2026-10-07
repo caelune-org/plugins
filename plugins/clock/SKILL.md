@@ -2,6 +2,8 @@
 name: World Clock
 description: Show the current time in any IANA timezone on a live ticking card
 version: 1.0.1
+category: utilities
+icon: 🕐
 tools:
   - name: current_time
     description: Get the current date and time, optionally in an IANA timezone like Asia/Shanghai or Europe/London; omit timezone for the viewer's local time

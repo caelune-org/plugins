@@ -1,0 +1,49 @@
+.pass-card {
+  border: 1px solid #e4e0d8;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fdfcf9;
+  max-width: 400px;
+}
+.pw-value {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  overflow-wrap: break-word;
+  user-select: all;
+  cursor: text;
+  padding: 4px 2px;
+}
+.pw-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+.pw-strength {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pw-strength.strong { color: #3d7a4a; }
+.pw-strength.ok { color: #9a6d1f; }
+.pw-strength.weak { color: #a8432c; }
+.pw-regen {
+  border: 1px solid #ddd8cc;
+  background: #fff;
+  border-radius: 7px;
+  font-size: 11.5px;
+  padding: 3px 9px;
+  cursor: pointer;
+  color: #6f6a5e;
+}
+.pw-regen:hover {
+  border-color: #b5ad9d;
+  color: #3d3a33;
+}
+.pw-hint {
+  margin-top: 6px;
+  font-size: 10.5px;
+  color: #b5ad9d;
+}

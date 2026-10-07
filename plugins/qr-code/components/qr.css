@@ -1,0 +1,36 @@
+.qr-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #e4e0d8;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fdfcf9;
+  max-width: 400px;
+}
+.qr-img {
+  width: 96px;
+  height: 96px;
+  flex: none;
+  border-radius: 8px;
+  border: 1px solid #ece8df;
+  background: #fff;
+  image-rendering: pixelated;
+}
+.qr-side {
+  min-width: 0;
+}
+.qr-text {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.qr-size {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #a8a193;
+}

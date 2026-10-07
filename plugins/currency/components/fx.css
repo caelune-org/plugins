@@ -1,0 +1,30 @@
+.fx-card {
+  border: 1px solid #e4e0d8;
+  border-radius: 12px;
+  padding: 13px 15px;
+  background: #fdfcf9;
+  max-width: 340px;
+  text-align: center;
+}
+.fx-from {
+  font-size: 14px;
+  color: #6f6a5e;
+  font-variant-numeric: tabular-nums;
+}
+.fx-arrow {
+  color: #b5ad9d;
+  font-size: 15px;
+  line-height: 1.2;
+  margin: 2px 0;
+}
+.fx-to {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+.fx-rate {
+  margin-top: 7px;
+  font-size: 11px;
+  color: #a8a193;
+}

@@ -1,0 +1,83 @@
+.todo-card {
+  border: 1px solid #e4e0d8;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fdfcf9;
+  max-width: 420px;
+}
+.td-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.td-title {
+  font-weight: 600;
+  font-size: 13px;
+}
+.td-count {
+  font-size: 11px;
+  color: #8a8478;
+}
+.td-list {
+  display: flex;
+  flex-direction: column;
+}
+.td-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 2px;
+  border-top: 1px solid #f0ede6;
+  font-size: 13px;
+}
+.td-check {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  border: 1.5px solid #b5ad9d;
+  border-radius: 4.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+}
+.td-check.on {
+  background: #b55a30;
+  border-color: #b55a30;
+}
+.td-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+.td-row.done .td-text {
+  color: #a8a193;
+  text-decoration: line-through;
+}
+.td-del {
+  flex: none;
+  border: 0;
+  background: none;
+  color: #c0b9a8;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  opacity: 0;
+}
+.td-row:hover .td-del {
+  opacity: 1;
+}
+.td-del:hover {
+  color: #b33;
+  background: #f5ece8;
+}
+.td-empty {
+  color: #a8a193;
+  font-size: 12.5px;
+  padding: 10px 2px;
+}
