@@ -101,6 +101,33 @@ interface CaeluneApi {
    * worker's ambient fetch exists regardless). */
   fetch: typeof fetch;
 
+  /** [capability: files] Per-plugin workspaces of persistent text files
+   * (survive reloads; wiped on uninstall). Workspace names: 1-40 chars of
+   * letters/digits/_/-, no dots. Paths: ≤8 segments of [\w.-], `.`/`..`
+   * rejected. Caps: 20 workspaces, 200 files each, 256KB per file, 2MB per
+   * workspace. `write` auto-creates a missing workspace; `read` is ranged
+   * (16KB default, 48KB max) so big files stay out of context. */
+  files: {
+    workspaces(): Promise<string[]>;
+    createWs(name: string): Promise<boolean>;
+    removeWs(name: string): Promise<boolean>;
+    list(ws: string, prefix?: string): Promise<{ path: string; size: number }[]>;
+    stat(ws: string, path: string): Promise<{ path: string; size: number } | null>;
+    read(
+      ws: string,
+      path: string,
+      opts?: { offset?: number; length?: number },
+    ): Promise<{ path: string; size: number; offset: number; content: string; hasMore: boolean }>;
+    write(
+      ws: string,
+      path: string,
+      content: string,
+      opts?: { append?: boolean },
+    ): Promise<{ path: string; bytes: number; size: number }>;
+    remove(ws: string, path: string): Promise<boolean>;
+    move(ws: string, from: string, to: string): Promise<boolean>;
+  };
+
   /* -- Deprecated v1 aliases (kept working) -- */
   /** @deprecated Use `storage` (capability: storage). */
   store: CaeluneApi['storage'];
